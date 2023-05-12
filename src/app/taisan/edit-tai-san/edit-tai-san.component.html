@@ -1,0 +1,183 @@
+<div class="pagetitle">
+  <h1>Dashboard</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/QLCSVC/taisan">Tài sản</a></li>
+      <li class="breadcrumb-item active">Edit tài sản</li>
+    </ol>
+  </nav>
+</div>
+<section class="section profile">
+  <div class="row">
+
+
+    <div class="col-xl-12">
+
+      <div class="card">
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <ul class="nav nav-tabs nav-tabs-bordered">
+
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit tài sản</button>
+            </li>
+
+          </ul>
+          <div class="tab-content pt-2">
+
+
+
+            <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
+
+              <!-- Profile Edit Form -->
+              <form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm.value)" >
+                <div class="row mb-3">
+                  <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Hình ảnh </label>
+                  <div class="col-md-8 col-lg-9">
+                    <img width="300px"  src="http://localhost:8080/QLCSVC/api/file/{{taisan.image}}" alt="Profile">
+
+
+                  </div>
+                </div>
+
+
+                <div class="row mb-3">
+                  <label for="Email" class="col-md-4 col-lg-3 col-form-label">Upload Hình ảnh</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="email" type="file" #file (change)="onFileChange(file)"  class="form-control" id="Email" >
+                  </div>
+                </div>
+
+                <div class="row mb-3 d-none">
+                  <label for="company" class="col-md-4 col-lg-3 col-form-label">Năm sản xuất</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="company" formControlName="namSanXuat" type="text" class="form-control" id="company">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label  class="col-md-4 col-lg-3 col-form-label">Tên tài sản</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input  formControlName="tenTS" type="text" class="form-control" >
+                  </div>
+                </div>
+
+
+
+
+                <div class="row mb-3">
+                  <label for="company" class="col-md-4 col-lg-3 col-form-label">Năm sản xuất</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="company" formControlName="namSanXuat" type="text" class="form-control" id="company">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="Job" class="col-md-4 col-lg-3 col-form-label">Hãng sản xuất</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="job" type="text" formControlName="hangSanXuat" class="form-control" id="Job">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="Country" class="col-md-4 col-lg-3 col-form-label">Bộ nhớ</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="country" type="text"formControlName="boNho" class="form-control" id="Country" >
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Vi sử lý</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="phone" type="text"formControlName="viSuLy" class="form-control"  >
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Bo mạch chủ</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="phone" type="text"formControlName="boMachChu" class="form-control"  >
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Cạc xử lý đồ họa</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="phone" type="text"formControlName="cacXuLyDoHoa" class="form-control"  >
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Khác</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="phone" type="text"formControlName="khac" class="form-control"  >
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Công xuất</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="phone" type="text"formControlName="congXuat" class="form-control"  >
+                  </div>
+                </div>
+                <div class="row mb-3" >
+                  <label for="Address" class="col-md-4 col-lg-3 col-form-label">Phòng</label>
+                  <div class="col-md-4 col-lg-5 d-flex align-items-center" >
+                    <select class="form-select form-select-sm " #select formControlName="maPhong"  aria-label=".form-select-lg example">
+
+                      <option  [value]="phong.maPhong" *ngFor="let phong of phong$|async">{{phong.tenPhong}}</option>
+
+                    </select>
+
+                  </div>
+                </div>
+
+                <div class="row mb-3" formGroupName="trangThai">
+                  <label for="Address" class="col-md-4 col-lg-3 col-form-label">Trạng thái</label>
+                  <div class="col-md-4 col-lg-5 d-flex align-items-center" >
+                    <select class="form-select form-select-sm " #tt formControlName="maTT" (change)="onTTChange(tt.value)"  aria-label=".form-select-lg example">
+
+                      <option  [value]="tt.maTT" *ngFor="let tt of trangThai$|async">{{tt.tenTT}}</option>
+
+                    </select>
+
+                  </div>
+                </div>
+                <div class="row mb-3" formGroupName="danhMucTaiSan">
+                  <label for="Address" class="col-md-4 col-lg-3 col-form-label">Danh mục tài sản</label>
+                  <div class="col-md-4 col-lg-5 d-flex align-items-center" >
+                    <select class="form-select form-select-sm " #dmts formControlName="maDanhMucTS" (change)="onDMTSChange(dmts.value)"  aria-label=".form-select-lg example">
+
+                      <option  [value]="dmts.maDanhMucTS" *ngFor="let dmts of danhMucTS$|async">{{dmts.tenDanhMucTS}}</option>
+
+                    </select>
+
+                  </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+              </form>
+
+            </div>
+
+
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+

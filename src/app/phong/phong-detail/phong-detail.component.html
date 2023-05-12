@@ -1,0 +1,163 @@
+<div class="pagetitle">
+  <h1>Dashboard</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/QLCSVC/phong">Phòng</a></li>
+      <li class="breadcrumb-item active">Chi tiết phòng</li>
+    </ol>
+  </nav>
+</div>
+<section class="section profile">
+  <div class="row">
+
+
+    <div class="col-xl-12">
+
+      <div class="card">
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <ul class="nav nav-tabs nav-tabs-bordered">
+
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Chi tiết phòng</button>
+            </li>
+
+
+
+
+
+          </ul>
+          <div class="tab-content pt-2">
+
+            <div class="tab-pane fade show active profile-overview" id="profile-overview" *ngIf="phong$|async as phong">
+
+              <h5 class="card-title">Chi tiết phòng</h5>
+
+              <div class="row">
+                <label for="profileImage" class="col-md-4 col-lg-3 label">Hình ảnh</label>
+                <div class="col-md-8 col-lg-9">
+                  <img src="http://localhost:8080/QLCSVC/api/file/{{phong.image}}" width="300px" height="auto" alt="Profile">
+
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Tên phòng</div>
+                <div class="col-lg-9 col-md-8">{{phong.tenPhong}}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Chiều dài</div>
+                <div class="col-lg-9 col-md-8">{{phong.chieuDai}}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Chiều rộng</div>
+                <div class="col-lg-9 col-md-8">{{phong.chieuRong}}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Trạng thái</div>
+                <div class="col-lg-9 col-md-8">{{phong.trangThai.tenTT}}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Mô tả</div>
+                <div class="col-lg-9 col-md-8">{{phong.mota}}</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-3 col-md-4 label">Vị trí</div>
+                <div class="col-lg-9 col-md-8">{{phong.vitri}}</div>
+              </div>
+
+
+
+
+            </div>
+
+
+
+
+
+          </div><!-- End Bordered Tabs -->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<section class="section dashboard">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-12">
+          <div class="card top-selling overflow-auto">
+
+            <div class="card-body pb-0">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title">Danh sách tài sản <span></span></h5>
+
+              </div>
+              <div class="d-flex justify-content-center">
+                <h5 class="card-title" *ngIf="(taisans$|async).data.page.content.length===0">Phòng này chưa có tài sản nào <span></span></h5>
+
+              </div>
+
+              <table class="table table-borderless" *ngIf="(taisans$|async).data.page.content.length>0">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Hình ảnh</th>
+
+                    <th scope="col">Tên tài sản</th>
+                    <th scope="col">Vị trí</th>
+                    <th scope="col">Danh mục tài sản</th>
+                    <th scope="col">Trạng thái</th>
+                    <th scope="col">Hành động</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="(taisans$|async).data.page.content as taisans">
+                  <tr *ngFor="let taisan of taisans">
+                    <td>{{taisan.maTS}}</td>
+                    <th scope="row"><a routerLink="/QLCSVC/taisan/detail/{{taisan.maTS}}" ><img src="http://localhost:8080/QLCSVC/api/file/{{taisan.image}}" alt=""></a></th>
+                    <td><a routerLink="/QLCSVC/taisan/detail/{{taisan.maTS}}" class="text-primary fw-bold">{{taisan.tenTS}}</a></td>
+                    <td>{{taisan.phong.tenPhong}}</td>
+                    <td >{{taisan.danhMucTaiSan.tenDanhMucTS}}</td>
+                    <td>{{taisan.trangThai.tenTT}}</td>
+                    <td >
+                      <button type="button" class="btn btn-primary me-2" > Di chuyển <i class="fa-solid fa-person-walking-luggage"></i></button>
+                    </td>
+
+                  </tr>
+
+
+                </tbody>
+              </table>
+
+            </div>
+
+            <nav aria-label="Page navigation example "*ngIf="(taisans$|async).data.page.content.length>0" >
+              <ul class="pagination justify-content-center" *ngIf="(taisans$|async) as api" >
+                <li class="page-item " [ngClass]="api.data.page.number+1===1?'disabled':''" >
+                  <a class="page-link"[ngClass]="api.data.page.number+1===1?'disabled':''" (click)="goToPage(api.data.page.number-1)">Previous</a>
+                </li>
+                <li class="page-item" [ngClass]="i===api.data.page.number?'active':''" *ngFor="let pageNumber of [].constructor(api.data.page.totalPages),let i=index" ><a class="page-link"(click)="goToPage(i)" >{{i+1}}</a></li>
+
+                <li class="page-item"   [ngClass]="api.data.page.number+1===api.data.page.totalPages?'disabled':''">
+                  <a class="page-link"  [ngClass]="api.data.page.number+1===api.data.page.totalPages?'disabled':''" (click)="goToPage(api.data.page.number+1)">Next</a>
+                </li>
+              </ul>
+            </nav>
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+

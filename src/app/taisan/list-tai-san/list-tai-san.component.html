@@ -1,0 +1,96 @@
+<div class="pagetitle">
+  <h1>Dashboard</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/QLCSVC/taisan">Tài Sản</a></li>
+      <li class="breadcrumb-item active">Danh sách tài sản</li>
+    </ol>
+  </nav>
+</div>
+<section class="section dashboard">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-12">
+          <div class="card top-selling overflow-auto">
+
+            <div class="card-body pb-0">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title">Danh sách tài sản <span></span></h5>
+                <button type="button " (click)=" navigateToAddPage()" class="btn btn-info my-2 btn-sm">Thêm tài sản <i class="fa-solid fa-plus"></i></button>
+              </div>
+
+              <table class="table table-borderless">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Hình ảnh</th>
+
+                    <th scope="col">Tên tài sản</th>
+                    <th scope="col">Vị trí</th>
+                    <th scope="col">Danh mục tài sản</th>
+                    <th scope="col">Trạng thái</th>
+                    <th scope="col">Hành động</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="(taisans$|async).data.page.content as taisans">
+                  <tr *ngFor="let taisan of taisans">
+                    <td>{{taisan.maTS}}</td>
+                    <th scope="row"><a routerLink="/QLCSVC/taisan/detail/{{taisan.maTS}}" ><img src="http://localhost:8080/QLCSVC/api/file/{{taisan.image}}" alt=""></a></th>
+                    <td><a routerLink="/QLCSVC/taisan/detail/{{taisan.maTS}}" class="text-primary fw-bold">{{taisan.tenTS}}</a></td>
+                    <td>{{taisan.phong.tenPhong}}</td>
+                    <td >{{taisan.danhMucTaiSan.tenDanhMucTS}}</td>
+                    <td>{{taisan.trangThai.tenTT}}</td>
+                    <td >
+                      <button type="button" class="btn btn-primary me-2" (click)=" navigateToEditPage(taisan.maTS)"> Sửa <i class="fa-solid fa-pen me-2"></i></button>
+                      <a href="#deleteUser{{taisan.maTS}}" type="button" class="btn btn-danger btn-small" data-bs-toggle="modal" >Xóa <i class="fa-solid fa-trash"></i></a>
+
+                    </td>
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteUser{{taisan.maTS}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận xóa</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Bạn có muốn xóa tài sản có mã {{taisan.maTS}}({{taisan.tenTS}})
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Save changes</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </tr>
+
+
+                </tbody>
+              </table>
+
+            </div>
+
+            <nav aria-label="Page navigation example " *ngIf="(taisans$|async) as api">
+              <ul class="pagination justify-content-center" >
+                <li class="page-item " [ngClass]="api.data.page.number+1===1?'disabled':''" (click)="goToPage(api.data.page.number-1)">
+                  <a class="page-link"[ngClass]="api.data.page.number+1===1?'disabled':''" >Previous</a>
+                </li>
+                <li class="page-item" [ngClass]="i===api.data.page.number?'active':''" *ngFor="let pageNumber of [].constructor(api.data.page.totalPages),let i=index" (click)="goToPage(i)"><a class="page-link" >{{i+1}}</a></li>
+
+                <li class="page-item"   [ngClass]="api.data.page.number+1===api.data.page.totalPages?'disabled':''">
+                  <a class="page-link"  [ngClass]="api.data.page.number+1===api.data.page.totalPages?'disabled':''" (click)="goToPage(api.data.page.number+1)">Next</a>
+                </li>
+              </ul>
+            </nav>
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,124 @@
+<div class="pagetitle">
+  <h1>Dashboard</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/QLCSVC/phong">Phòng</a></li>
+      <li class="breadcrumb-item active">Thêm phòng</li>
+    </ol>
+  </nav>
+</div>
+<section class="section profile">
+  <div class="row">
+
+
+    <div class="col-xl-12">
+
+      <div class="card">
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <ul class="nav nav-tabs nav-tabs-bordered">
+
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">Thêm phòng</button>
+            </li>
+
+          </ul>
+          <div class="tab-content pt-2">
+
+
+
+            <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
+
+              <!-- Profile Edit Form -->
+              <form [formGroup]="addForm" (ngSubmit)="onSubmit(addForm.value)">
+
+                <div class="row mb-3">
+                  <label for="Email" class="col-md-4 col-lg-3 col-form-label">Hình ảnh</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="email" type="file" #file (change)="fileChange(file)" class="form-control" id="Email" >
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Tên phòng</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="fullName" formControlName="tenPhong" type="text" class="form-control" id="fullName" >
+                  </div>
+                </div>
+
+
+                <div class="row mb-3">
+                  <label for="company" class="col-md-4 col-lg-3 col-form-label">Chiều dài</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="company" formControlName="chieuDai" type="text" class="form-control" id="company">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="Job" class="col-md-4 col-lg-3 col-form-label">Chiều rộng</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="job" type="text" formControlName="chieuRong" class="form-control" id="Job">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="Country" class="col-md-4 col-lg-3 col-form-label">Vị trí</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="country" type="text"formControlName="vitri" class="form-control" id="Country" >
+                  </div>
+                </div>
+
+                <div class="row mb-3" formGroupName="trangThai">
+                  <label for="Address" class="col-md-4 col-lg-3 col-form-label">Trạng thái</label>
+                  <div class="col-md-4 col-lg-5 d-flex align-items-center" >
+                    <select class="form-select form-select-sm " #select formControlName="maTT" (change)="editTrangThai(select.value)" aria-label=".form-select-lg example">
+
+                      <option  [value]="data.maTT" *ngFor="let data of (trangThais$|async)">{{data.tenTT}}</option>
+
+                    </select>
+
+                  </div>
+                </div>
+                <div class="row mb-3" formGroupName="danhMucPhong">
+                  <label for="Address" class="col-md-4 col-lg-3 col-form-label">Danh mục phòng</label>
+                  <div class="col-md-4 col-lg-5 d-flex align-items-center" >
+                    <select class="form-select form-select-sm " #dmp formControlName="maDanhMucPhong" (change)="editDanhMucPhong(dmp.value)" aria-label=".form-select-lg example">
+
+                      <option  [value]="dmp.maDanhMucPhong" *ngFor="let dmp of (danhMucPhongs$|async)">{{dmp.tenDanhMucPhong}}</option>
+
+                    </select>
+
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Mô tả</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="phone" type="text"formControlName="mota" class="form-control" id="Phone" >
+                  </div>
+                </div>
+
+
+
+
+
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+              </form><!-- End Profile Edit Form -->
+               <pre>{{addForm.value|json}}</pre>
+
+            </div>
+
+
+
+          </div><!-- End Bordered Tabs -->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
