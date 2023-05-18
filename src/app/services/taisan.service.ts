@@ -45,4 +45,14 @@ export class TaisanService {
    public getTaiSanByPhong(page:number,size:number,maPhong:number){
     return this.http.post<ApiResponse<TaiSan>>("http://localhost:8080/QLCSVC/api/taisan/getTSByPhong",{page:page, size:size, maPhong:maPhong})
    }
+   public dichuyenTS(maTS:number,maPhongDC:number):Observable<boolean>{
+
+    return this.http.post<boolean>("http://localhost:8080/QLCSVC/api/taisan/dichuyen",{maTS:maTS, maPhongDC:maPhongDC})
+
+
+   }
+   public getTaiSanByPhongAndTT(page:number,size:number,maPhong:number=1,maTT:number=4){
+    return this.http.post<ApiResponse<TaiSan>>("http://localhost:8080/QLCSVC/api/taisan/getTSByPhongAndTT",{page:page, size:size, maPhong:maPhong,maTT:maTT})
+   }
+
 }

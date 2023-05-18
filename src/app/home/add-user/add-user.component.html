@@ -39,7 +39,9 @@
                   <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                   <div class="col-md-8 col-lg-9">
                     <input name="fullName" formControlName="name" type="text" class="form-control" id="fullName" >
+                    <p class="text-danger mt-2"  *ngIf="(editForm.get('name').touched||submited)&&editForm.get('name').errors?.['required']">Trường này không được bỏ trống.</p>
                   </div>
+
                 </div>
 
 
@@ -47,10 +49,11 @@
                   <label for="company" class="col-md-4 col-lg-3 col-form-label">User name</label>
                   <div class="col-md-8 col-lg-9">
                     <input name="company" formControlName="username" type="text" class="form-control" id="company" >
+                    <p class="text-danger mt-2"  *ngIf="(editForm.get('username').touched||submited)&&editForm.get('username').errors?.['required']">Trường này không được bỏ trống.</p>
                   </div>
                 </div>
 
-               
+
                 <div class="row mb-3" formGroupName="chucVu">
                   <label for="Address" class="col-md-4 col-lg-3 col-form-label">Chức vụ</label>
                   <div class="col-md-4 col-lg-5 d-flex align-items-center" >
@@ -60,6 +63,8 @@
 
                     </select>
 
+
+
                   </div>
                 </div>
 
@@ -67,6 +72,8 @@
                   <label for="Country" class="col-md-4 col-lg-3 col-form-label">Tuổi</label>
                   <div class="col-md-8 col-lg-9">
                     <input name="country" formControlName="tuoi" type="text" class="form-control" id="Country" >
+                    <p class="text-danger mt-2"  *ngIf="(editForm.get('tuoi').touched||submited)&&editForm.get('tuoi').errors?.['required']">Trường này không được bỏ trống.</p>
+                    <p class="text-danger mt-2"  *ngIf="(editForm.get('tuoi').touched||submited)&&editForm.get('tuoi').errors?.['pattern']">Số nhập vào phải là số dương.</p>
                   </div>
                 </div>
 
@@ -74,6 +81,8 @@
                   <label for="Address" class="col-md-4 col-lg-3 col-form-label">Địa chỉ</label>
                   <div class="col-md-8 col-lg-9">
                     <input name="address" type="text" formControlName="diachi" class="form-control" id="Address" >
+                    <p class="text-danger mt-2"  *ngIf="(editForm.get('diachi').touched||submited)&&editForm.get('diachi').errors?.['required']">Trường này không được bỏ trống.</p>
+
                   </div>
                 </div>
 
@@ -81,6 +90,8 @@
                   <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                   <div class="col-md-8 col-lg-9">
                     <input name="phone" type="text" formControlName="phone" class="form-control" id="Phone" >
+                    <p class="text-danger mt-2"  *ngIf="(editForm.get('phone').touched||submited)&&editForm.get('phone').errors?.['required']">Trường này không được bỏ trống.</p>
+
                   </div>
                 </div>
 
@@ -88,6 +99,9 @@
                   <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                   <div class="col-md-8 col-lg-9">
                     <input name="email" type="email" formControlName="email" class="form-control" id="Email" >
+                    <p class="text-danger mt-2"  *ngIf="(editForm.get('email').touched||submited)&&editForm.get('email').errors?.['required']">Trường này không được bỏ trống.</p>
+                    <p class="text-danger mt-2"  *ngIf="(editForm.get('email').touched||submited)&&editForm.get('email').errors?.['email']">Không đúng cấu truc email.</p>
+
                   </div>
                 </div>
 
@@ -95,6 +109,9 @@
                   <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Password</label>
                   <div class="col-md-8 col-lg-9">
                     <input name="twitter" formControlName="password" type="password" class="form-control" id="Twitter" >
+                    <p class="text-danger mt-2"  *ngIf="(editForm.get('password').touched||submited)&&editForm.get('password').errors?.['required']">Trường này không được bỏ trống.</p>
+
+
                   </div>
                 </div>
 

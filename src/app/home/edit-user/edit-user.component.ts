@@ -24,6 +24,8 @@ export class EditUserComponent {
   user: User;
   username: string;
   editProfileForm: FormGroup;
+  currentUser$:Observable<User>;
+  currentUser:User;
 
   file: File;
   fileNameSubject: BehaviorSubject<string>;
@@ -39,9 +41,12 @@ export class EditUserComponent {
     private activedRoute: ActivatedRoute
   ) {}
   ngOnInit(): void {
+    this.currentUser$=this.userService.getUser(JSON.parse(localStorage.getItem("token")).username);
+    this.currentUser$.subscribe(data => {this.currentUser=data});
     this.chucVus$=this.userService.getChucVu();
     this.userSubject = new BehaviorSubject<User>(null);
     this.user$ = this.userSubject.asObservable();
+
     this.activedRoute.params.subscribe(
       (params) => (this.username = params['username'])
     );
@@ -62,6 +67,10 @@ export class EditUserComponent {
         id: new FormControl(user.id, Validators.required),
       });
     });
+  }
+  isTruongKhoa():boolean {
+    return this.currentUser.roles.some(role => role.name === 'ROLE_SUPER_ADMIN');
+
   }
   chucVuChange(maChucVu:any){
     this.chucVus$.subscribe(chucVus=>{

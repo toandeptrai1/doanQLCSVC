@@ -21,6 +21,7 @@ export class UserService {
     this.User=new BehaviorSubject<any>(JSON.parse(localStorage.getItem("token")));
     this.User$=this.User?.asObservable();
     this.currentUser$=this.currentUserSub.asObservable();
+    
 
 
 
@@ -81,4 +82,12 @@ export class UserService {
   public getChucVu():Observable<ChucVu[]>{
     return this.http.get<ChucVu[]>("http://localhost:8080/QLCSVC/api/user/chucvus")
   }
+  public addPhongToUser(userID:any,maPhong:any):Observable<boolean>{
+    return this.http.post<boolean>("http://localhost:8080/QLCSVC/api/user/addPhongToUser",{userID:userID,maPhong:maPhong})
+  }
+  public removePhongFormUser(userID:any,maPhong:any):Observable<boolean>{
+    return this.http.post<boolean>("http://localhost:8080/QLCSVC/api/user/removePhongFromUser",{userID:userID,maPhong:maPhong})
+  }
+
+
 }

@@ -1,0 +1,140 @@
+<div class="pagetitle">
+  <h1>Dashboard</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+      <li class="breadcrumb-item active">Dashboard</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h2>Phân công quản lý phòng</h2>
+                    </div>
+
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>User name</th>
+                        <th>Chức vụ</th>
+
+                        <th>Phòng quản lý</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf=" Users$|async as Users">
+                    <tr *ngFor="let user of Users.data.page.content">
+                        <td>{{user.id}}</td>
+                        <td><a routerLink="/QLCSVC/user/editUser/{{user.username}}"><img style="width:40px" src="http://localhost:8080/QLCSVC/api/file/{{user.image}}" class="avatar" alt="Avatar"> {{user.name}}</a></td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.chucVu.tenChucVu}}</td>
+
+                        <td >
+
+                            <div class="d-flex">
+                              <div class="d-flex flex-column mb-3">
+                                <a  routerLink="/QLCSVC/phong/chitietphong/{{phong.maPhong}}" *ngFor="let phong of user.phongs">{{phong.tenPhong}}
+                                </a>
+                              </div>
+                              <div class="d-flex flex-column mb-3">
+                              <a href="#deletePhongModal{{user.id}}-{{phong.maPhong}}"*ngFor="let phong of user.phongs" class="delete" title="Delete" data-toggle="tooltip" data-bs-toggle="modal" ><i class="material-icons">&#xE5C9;</i>
+                                   <!-- Modal -->
+                                  <div class="modal fade" id="deletePhongModal{{user.id}}-{{phong.maPhong}}" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận xóa</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                        Bạn có muốn xóa  quyền quản lý phòng {{phong.tenPhong}} từ user({{user.username}})
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="deletePhongFormUser(user.id,phong.maPhong)">Save changes</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    </div>
+
+
+
+                              </a>
+
+                              </div>
+
+                            </div>
+
+
+
+                        </td>
+
+
+
+                        <td>
+                          <a href="#deleteModal{{user.id}}" class="btn btn-danger text-light" data-bs-toggle="modal" *ngIf="!isGiangVien(user)&&!isTruongKhoa(user)">
+                           Thêm phòng
+                          </a>
+
+
+                        </td>
+                         <!-- Modal -->
+                         <div class="modal fade" id="deleteModal{{user.id}}" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <form [formGroup]="phongSelecForm" (ngSubmit)="onSubmit(phongSelecForm.value,user.id)">
+                              <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm phòng quản lý</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+
+                                <select class="form-select form-select-sm" formControlName="phongSelected"
+                                 #phongSelect aria-label=".form-select-sm example" *ngIf="phongs$|async as phongs">
+
+                                  <option [value]="phong.maPhong" *ngFor="let phong of phongs">{{phong.tenPhong}}</option>
+
+                                </select>
+                                <p class="text-danger mt-2" *ngIf="phongSelecForm.get('phongSelected').touched&&phongSelecForm.get('phongSelected').errors?.['required']">
+                                  Bạn phải chọn phòng
+                                </p>
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" [disabled]="phongSelecForm.invalid" class="btn btn-primary" data-bs-dismiss="modal" >Save changes</button>
+                              </div>
+                              </form>
+
+                            </div>
+                          </div>
+                        </div>
+                    </tr>
+
+                </tbody>
+            </table>
+            <div class="clearfix">
+
+                <ul class="pagination">
+                    <li class="page-item " [ngClass]="(Users$|async).data.page.number===0?'disabled':''"><a>Previous</a></li>
+                    <li class="page-item " [ngClass]="i===(Users$|async).data.page.number?'active':''" *ngFor="let pageNumber of [].constructor((Users$|async).data.page.totalPages),let i =index"><a  class="page-link">
+                      {{ i+1}}</a>
+                    </li>
+
+                    <li class="page-item"  [ngClass]="(Users$|async).data.page.number+1===(Users$|async).data.page.totalPages?'disabled':''">
+                      <a  class="page-link">Next</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+

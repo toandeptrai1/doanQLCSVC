@@ -97,6 +97,7 @@
             <div class="card-body pb-0">
               <div class="d-flex justify-content-between">
                 <h5 class="card-title">Danh sách tài sản <span></span></h5>
+                <a type="button "  *ngIf="(taisans$|async).data.page.content.length>0&&(isTruongKhoa()||isQuanLy())" routerLink="/QLCSVC/phong/capnhatttts/{{(phong$|async).maPhong}}" class="btn btn-info my-2 btn-sm">Cập nhật trạng thái TS  <i class="fa-solid fa-wrench"></i></a>
 
               </div>
               <div class="d-flex justify-content-center">
@@ -114,7 +115,7 @@
                     <th scope="col">Vị trí</th>
                     <th scope="col">Danh mục tài sản</th>
                     <th scope="col">Trạng thái</th>
-                    <th scope="col">Hành động</th>
+                    <th scope="col" *ngIf="isTruongKhoa()||isQuanLy()">Hành động</th>
                   </tr>
                 </thead>
                 <tbody *ngIf="(taisans$|async).data.page.content as taisans">
@@ -125,8 +126,8 @@
                     <td>{{taisan.phong.tenPhong}}</td>
                     <td >{{taisan.danhMucTaiSan.tenDanhMucTS}}</td>
                     <td>{{taisan.trangThai.tenTT}}</td>
-                    <td >
-                      <button type="button" class="btn btn-primary me-2" > Di chuyển <i class="fa-solid fa-person-walking-luggage"></i></button>
+                    <td *ngIf="isTruongKhoa()||isQuanLy()">
+                      <button type="button" class="btn btn-primary me-2" (click)=" navigateToEditPage(taisan.maTS)"> Sửa <i class="fa-solid fa-pen me-2"></i></button>
                     </td>
 
                   </tr>
@@ -149,6 +150,63 @@
                 </li>
               </ul>
             </nav>
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section dashboard">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-12">
+          <div class="card top-selling overflow-auto">
+
+            <div class="card-body pb-0">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title">Danh sách người quản lý <span></span></h5>
+
+              </div>
+              <div class="d-flex justify-content-center">
+                <h5 class="card-title" *ngIf="(phong$|async).users.length===0">Phòng này chưa có ai quản lý<span></span></h5>
+
+              </div>
+
+              <table class="table table-borderless" *ngIf="(phong$|async).users.length>0">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Hình ảnh</th>
+
+                    <th scope="col">Họ tên </th>
+                    <th scope="col">Chức vụ</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Email</th>
+
+                  </tr>
+                </thead>
+                <tbody >
+                  <tr *ngFor="let user of (phong$|async).users">
+                    <td>{{user.id}}</td>
+                    <th scope="row"><a routerLink="/QLCSVC/user/editUser/{{user.username}}" ><img src="http://localhost:8080/QLCSVC/api/file/{{user.image}}" alt=""></a></th>
+                    <td><a routerLink="/QLCSVC/user/editUser/{{user.username}}" class="text-primary fw-bold">{{user.name}}</a></td>
+                    <td>{{user.chucVu.tenChucVu}}</td>
+                    <td >{{user.phone}}</td>
+                    <td>{{user.email}}</td>
+
+                  </tr>
+
+
+                </tbody>
+              </table>
+
+            </div>
+
+
 
           </div>
         </div>

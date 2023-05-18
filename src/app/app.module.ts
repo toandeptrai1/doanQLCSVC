@@ -26,6 +26,20 @@ import { AddTaiSanComponent } from './taisan/add-tai-san/add-tai-san.component';
 import { TaisanDetailComponent } from './taisan/taisan-detail/taisan-detail.component';
 import { PhongDetailComponent } from './phong/phong-detail/phong-detail.component';
 import { DstsPhongComponent } from './phong/dsts-phong/dsts-phong.component';
+import { PhanCongQLComponent } from './home/phan-cong-ql/phan-cong-ql.component';
+import { ListTTDCComponent } from './thongTinDC/list-ttdc/list-ttdc.component';
+import { LapTTDCComponent } from './thongTinDC/lap-ttdc/lap-ttdc.component';
+import { FormsModule } from '@angular/forms';
+import { LapCaTrucComponent } from './catruc/lap-ca-truc/lap-ca-truc.component';
+import { TtdcDetaiComponent } from './thongTinDC/ttdc-detai/ttdc-detai.component';
+import { ListThongTinSuaComponent } from './thongTinSua/list-thong-tin-sua/list-thong-tin-sua.component';
+import { LapThongTinSuaComponent } from './thongTinSua/lap-thong-tin-sua/lap-thong-tin-sua.component';
+import { UpdateTTComponent } from './phong/update-tt/update-tt.component';
+import { TtsuaDetailComponent } from './thongTinSua/ttsua-detail/ttsua-detail.component';
+import { LapDSThanhLyComponent } from './ThanhLyTS/lap-dsthanh-ly/lap-dsthanh-ly.component';
+import { ListDSThanhLyComponent } from './ThanhLyTS/list-dsthanh-ly/list-dsthanh-ly.component';
+import { ThanhLyDetailComponent } from './ThanhLyTS/thanh-ly-detail/thanh-ly-detail.component';
+import { HomePageComponent } from './home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +61,20 @@ import { DstsPhongComponent } from './phong/dsts-phong/dsts-phong.component';
     AddTaiSanComponent,
     TaisanDetailComponent,
     PhongDetailComponent,
-    DstsPhongComponent
+    DstsPhongComponent,
+    PhanCongQLComponent,
+    ListTTDCComponent,
+    LapTTDCComponent,
+    LapCaTrucComponent,
+    TtdcDetaiComponent,
+    ListThongTinSuaComponent,
+    LapThongTinSuaComponent,
+    UpdateTTComponent,
+    TtsuaDetailComponent,
+    LapDSThanhLyComponent,
+    ListDSThanhLyComponent,
+    ThanhLyDetailComponent,
+    HomePageComponent
 
   ],
   imports: [
@@ -56,7 +83,8 @@ import { DstsPhongComponent } from './phong/dsts-phong/dsts-phong.component';
     ReactiveFormsModule,
     HttpClientModule,
     ToastrModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [
     {

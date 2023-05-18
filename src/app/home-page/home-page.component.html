@@ -1,0 +1,184 @@
+
+<script src="/QLCSVCApp/src/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<div class="pagetitle">
+  <h1>Dashboard</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+      <li class="breadcrumb-item active">Dashboard</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+<section class="section dashboard">
+  <div class="row">
+
+    <!-- Left side columns -->
+    <div class="col-lg-8">
+      <div class="row">
+
+        <!-- Sales Card -->
+        <div class="col-xxl-4 col-md-6">
+          <div class="card info-card sales-card">
+
+
+
+            <div class="card-body">
+              <h5 class="card-title">Tài Sản</h5>
+
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-cart"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>{{(taiSans$|async).data.page.totalElements}}</h6>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- End Sales Card -->
+
+        <!-- Revenue Card -->
+        <div class="col-xxl-4 col-md-6">
+          <div class="card info-card revenue-card">
+
+
+            <div class="card-body">
+              <h5 class="card-title">Số phòng</h5>
+
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="fa-solid fa-house"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>{{(phongs$|async).data.page.totalElements}}</h6>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- End Revenue Card -->
+
+        <!-- Customers Card -->
+        <div class="col-xxl-4 col-xl-12">
+
+          <div class="card info-card customers-card">
+
+
+
+            <div class="card-body">
+              <h5 class="card-title">Thành Viên</h5>
+
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-people"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>{{(users$|async).data.page.totalElements}}</h6>
+
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div><!-- End Customers Card -->
+
+
+
+
+        <!-- Top Selling -->
+        <div class="col-12">
+          <div class="card top-selling overflow-auto">
+
+
+
+            <div class="card-body pb-0">
+              <h5 class="card-title">Danh sách phòng</h5>
+
+              <table class="table table-borderless">
+                <thead>
+                  <tr>
+                    <th scope="col">Hình ảnh</th>
+                    <th scope="col">Tên phòng</th>
+                    <th scope="col">Chiều dài </th>
+                    <th scope="col">Chiều rộng</th>
+                    <th scope="col">Vị trí</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="phongs$|async as phongs">
+                  <tr *ngFor="let phong of phongs.data.page.content">
+                    <th scope="row"><a routerLink="/QLCSVC/phong/chitietphong/{{phong.maPhong}}"><img src="http://localhost:8080/QLCSVC/api/file/{{phong.image}}"  alt=""></a></th>
+                    <td><a routerLink="/QLCSVC/phong/chitietphong/{{phong.maPhong}}" class="text-primary fw-bold">{{phong.tenPhong}}</a></td>
+                    <td>{{phong.chieuDai}} m2</td>
+                    <td >{{phong.chieuRong}} m2</td>
+                    <td>{{phong.vitri}}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+
+            </div>
+
+          </div>
+        </div><!-- End Top Selling -->
+
+      </div>
+    </div><!-- End Left side columns -->
+
+    <!-- Right side columns -->
+    <div class="col-lg-4" >
+
+      <!-- Recent Activity -->
+      <div class="card" *ngIf="isTruongKhoa()">
+
+
+        <div class="card-body"  *ngIf="(thongBaos$|async).data.page.content as thongBaos">
+          <h5 class="card-title">Hoạt động gần đây</h5>
+          <p class="text-center " *ngIf="thongBaos.length <=0">Không có hoạt động nào gần đây</p>
+
+          <div class="activity" *ngIf="thongBaos.length >0">
+
+            <div class="activity-item d-flex" *ngFor="let tb of thongBaos">
+              <div class="activite-label">{{tb.duration}}</div>
+              <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+              <div class="activity-content" *ngIf="tb.maTTDC>0">
+                {{tb.noiDung}} <a routerLink="/QLCSVC/ttdc/detail/{{tb.maTTDC}}" class="fw-bold text-dark">xem thêm</a>
+              </div>
+              <div class="activity-content" *ngIf="tb.maTTSua>0">
+                {{tb.noiDung}} <a routerLink="/QLCSVC/ttsua/detail/{{tb.maTTSua}}" class="fw-bold text-dark">xem thêm</a>
+              </div>
+            </div><!-- End activity item-->
+
+
+
+          </div>
+
+        </div>
+      </div><!-- End Recent Activity -->
+
+
+
+      <!-- Website Traffic -->
+      <div class="card">
+
+
+        <div class="card-body pb-0">
+          <h5 class="card-title">Thống kê trạng thái tài sản</h5>
+
+          <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+
+
+
+        </div>
+      </div><!-- End Website Traffic -->
+
+
+    </div><!-- End Right side columns -->
+
+  </div>
+</section>

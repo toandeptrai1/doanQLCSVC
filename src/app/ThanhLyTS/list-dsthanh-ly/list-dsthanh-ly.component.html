@@ -1,0 +1,77 @@
+
+<div class="pagetitle">
+  <h1>Dashboard</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/QLCSVC/ttdc/listttdc">Thông tin thanh lý</a></li>
+      <li class="breadcrumb-item active">Danh sách thông tin thanh lý</li>
+    </ol>
+  </nav>
+</div>
+<section class="section dashboard">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-12">
+          <div class="card top-selling overflow-auto">
+
+            <div class="card-body pb-0">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title">Danh sách thông tin thanh lý<span></span></h5>
+                <button type="button " (click)=" navigateToAddPage()" class="btn btn-info my-2 btn-sm">Lập thông tin thanh lý<i class="fa-solid fa-plus"></i></button>
+              </div>
+
+              <table class="table table-borderless">
+                <thead>
+                  <tr>
+                    <th scope="col">Mã Thanh lý</th>
+                    <th scope="col">Tên TT Thanh lý</th>
+
+                    <th scope="col">Cơ quan thanh lý</th>
+                    <th scope="col">Tiền thu được</th>
+                    <th scope="col">Người thực hiện</th>
+                    <th scope="col">Mô tả</th>
+
+                  </tr>
+                </thead>
+                <tbody *ngIf="(tttls$|async).data.page.content as tttls">
+                  <tr *ngFor="let tttl of tttls">
+                    <td>{{tttl.maThanhLy}}</td>
+                    <th scope="row"><a routerLink="/QLCSVC/thanhly/detail/{{tttl.maThanhLy}}" >{{tttl.tenThanhLy}}</a></th>
+                    <td>{{tttl.coQuanTL}}</td>
+                    <td>{{tttl.tienThu}} VND</td>
+                    <td >{{tttl.user.username}}</td>
+                    <td>{{tttl.moTa}}</td>
+
+                  </tr>
+
+
+                </tbody>
+              </table>
+
+            </div>
+
+            <nav aria-label="Page navigation example " *ngIf="(tttls$|async) as api">
+              <ul class="pagination justify-content-center" >
+                <li class="page-item " [ngClass]="api.data.page.number+1===1?'disabled':''" (click)="goToPage(api.data.page.number-1)">
+                  <a class="page-link"[ngClass]="api.data.page.number+1===1?'disabled':''" >Previous</a>
+                </li>
+                <li class="page-item" [ngClass]="i===api.data.page.number?'active':''" *ngFor="let pageNumber of [].constructor(api.data.page.totalPages),let i=index" (click)="goToPage(i)"><a class="page-link" >{{i+1}}</a></li>
+
+                <li class="page-item"   [ngClass]="api.data.page.number+1===api.data.page.totalPages?'disabled':''">
+                  <a class="page-link"  [ngClass]="api.data.page.number+1===api.data.page.totalPages?'disabled':''" (click)="goToPage(api.data.page.number+1)">Next</a>
+                </li>
+              </ul>
+            </nav>
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+

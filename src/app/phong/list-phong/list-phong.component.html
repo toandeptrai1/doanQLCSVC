@@ -19,7 +19,7 @@
             <div class="card-body pb-0">
               <div class="d-flex justify-content-between">
                 <h5 class="card-title">Danh sách phòng <span></span></h5>
-                <button type="button " (click)="navigateToPage()" class="btn btn-info my-2 btn-sm">Thêm phòng <i class="fa-solid fa-plus"></i></button>
+                <button type="button "*ngIf="isTruongKhoa()" (click)="navigateToPage()" class="btn btn-info my-2 btn-sm">Thêm phòng <i class="fa-solid fa-plus"></i></button>
               </div>
 
               <table class="table table-borderless">
@@ -31,7 +31,7 @@
                     <th scope="col">Chiều rộng</th>
                     <th scope="col">Trạng thái</th>
                     <th scope="col">Danh mục phòng</th>
-                    <th scope="col">Hành động</th>
+                    <th scope="col" *ngIf="isTruongKhoa()">Hành động</th>
                   </tr>
                 </thead>
                 <tbody *ngIf="(phongs|async).data.page.content as phongs">
@@ -42,7 +42,7 @@
                     <td >{{phong.chieuRong}} m²</td>
                     <td>{{phong.trangThai.tenTT}}</td>
                     <td>{{phong.danhMucPhong.tenDanhMucPhong}}</td>
-                    <td >
+                    <td *ngIf="isTruongKhoa()">
                       <button type="button" (click)="navigateToEditPage(phong.maPhong)" class="btn btn-primary me-2"> Sửa <i class="fa-solid fa-pen me-2"></i></button>
                       <a href="#deleteUser{{phong.maPhong}}" type="button" class="btn btn-danger btn-small" data-bs-toggle="modal" >Xóa <i class="fa-solid fa-trash"></i></a>
 
@@ -72,15 +72,16 @@
               </table>
 
             </div>
-            <nav aria-label="Page navigation example " >
-              <ul class="pagination justify-content-center" >
-                <li class="page-item " [ngClass]="(phongs|async).data.page.number+1===1?'disabled':''">
-                  <a class="page-link">Previous</a>
-                </li>
-                <li class="page-item" [ngClass]="i===(phongs|async).data.page.number?'active':''" *ngFor="let pageNumber of [].constructor((phongs|async).data.page.totalPages),let i=index"><a class="page-link" >{{i+1}}</a></li>
 
-                <li class="page-item">
-                  <a class="page-link" [ngClass]="(phongs|async).data.page.number+1===(phongs|async).data.page.totalPages?'disabled':''" >Next</a>
+            <nav aria-label="Page navigation example " *ngIf="(phongs|async) as api">
+              <ul class="pagination justify-content-center" >
+                <li class="page-item " [ngClass]="api.data.page.number+1===1?'disabled':''" (click)="goToPage(api.data.page.number-1)">
+                  <a class="page-link"[ngClass]="api.data.page.number+1===1?'disabled':''" >Previous</a>
+                </li>
+                <li class="page-item" [ngClass]="i===api.data.page.number?'active':''" *ngFor="let pageNumber of [].constructor(api.data.page.totalPages),let i=index" (click)="goToPage(i)"><a class="page-link" >{{i+1}}</a></li>
+
+                <li class="page-item"   [ngClass]="api.data.page.number+1===api.data.page.totalPages?'disabled':''">
+                  <a class="page-link"  [ngClass]="api.data.page.number+1===api.data.page.totalPages?'disabled':''" (click)="goToPage(api.data.page.number+1)">Next</a>
                 </li>
               </ul>
             </nav>

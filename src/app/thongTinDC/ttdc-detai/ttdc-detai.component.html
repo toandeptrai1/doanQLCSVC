@@ -1,0 +1,156 @@
+<div class="pagetitle">
+  <h1>Dashboard</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/QLCSVC/ttdc/listttdc">Chi tiết thông tin di chuyển</a></li>
+      <li class="breadcrumb-item active">Chi tiết thông tin di chuyển</li>
+    </ol>
+  </nav>
+</div>
+<section class="section profile">
+  <div class="row">
+
+
+    <div class="col-xl-12">
+
+      <div class="card">
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <ul class="nav nav-tabs nav-tabs-bordered">
+
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">Chi tiết thông tin di chuyển</button>
+            </li>
+
+          </ul>
+          <div class="tab-content pt-2">
+
+
+
+            <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit" *ngIf="ttdc$|async as ttdc">
+
+              <!-- Profile Edit Form -->
+
+
+
+
+
+                <div class="row mb-3">
+                  <label for="company" class="col-md-4 col-lg-3 col-form-label">Tên thông tin di chuyển</label>
+                  <div class="col-md-8 col-lg-9">
+
+                    <p >{{ttdc.tenTTDC}}</p>
+                  </div>
+                </div>
+
+
+
+                <div class="row mb-3">
+                  <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Mô tả</label>
+                  <div class="col-md-8 col-lg-9">
+                    <p >{{ttdc.moTa}}</p>
+                  </div>
+                </div>
+                <div class="row mb-3" >
+                  <label for="Address" class="col-md-4 col-lg-3 col-form-label">Từ phòng </label>
+                  <div class="col-md-4 col-lg-5 d-flex align-items-center" >
+
+                    <p >{{ttdc.tenPhong}}</p>
+
+                  </div>
+                </div>
+                <div class="row mb-3" >
+                  <label for="Address" class="col-md-4 col-lg-3 col-form-label">Đến phòng</label>
+                  <div class="col-md-4 col-lg-5 d-flex align-items-center" >
+
+                    <p >{{ttdc.tenPhongDC}}</p>
+
+
+                  </div>
+                </div>
+                <div class="row mb-3" >
+                  <label for="Address" class="col-md-4 col-lg-3 col-form-label">Nguời thực hiện</label>
+                  <div class="col-md-4 col-lg-5 d-flex align-items-center" >
+
+
+                    <p >{{ttdc.user.username}}</p>
+                  </div>
+                </div>
+                <div class="row mb-3" >
+                  <label for="Address" class="col-md-4 col-lg-3 col-form-label">Ngày lập</label>
+                  <div class="col-md-4 col-lg-5 d-flex align-items-center" >
+
+
+                    <p >{{ttdc.createdDate|date}}</p>
+                  </div>
+                </div>
+
+
+
+
+
+                    <h5 class="card-title">Danh sách tài sản di chuyển</h5>
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable" *ngIf="ttdc$|async as ttdc">
+                      <thead>
+                        <tr>
+                          <th scope="col">
+                            Mã tài sản</th>
+                          <th scope="col">Hình ảnh</th>
+                          <th scope="col">Tên tài sản</th>
+                          <th scope="col">Vị trí</th>
+                          <th scope="col">Trạng thái</th>
+                          <th scope="col">Danh mục tài sản</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let taisan of ttdc.taiSans,let i=index">
+                          <th>{{taisan.maTS}}</th>
+                           <td scope="row"><a routerLink="/QLCSVC/taisan/detail/{{taisan.maTS}}"  > <img width="60px" src="http://localhost:8080/QLCSVC/api/file/{{taisan.image}}" alt=""></a></td>
+                          <td><a routerLink="/QLCSVC/taisan/detail/{{taisan.maTS}}" class="text-primary fw-bold">{{taisan.tenTS}}</a></td>
+                          <td>{{taisan.phong.tenPhong}}</td>
+                          <td>{{taisan.trangThai.tenTT}}</td>
+                          <td>{{taisan.danhMucTaiSan.tenDanhMucTS}}</td>
+
+                        </tr>
+
+
+
+                      </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+          </div><!-- End Bordered Tabs -->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+

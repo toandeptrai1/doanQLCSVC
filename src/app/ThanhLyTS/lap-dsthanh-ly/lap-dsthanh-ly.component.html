@@ -1,0 +1,169 @@
+<div class="pagetitle">
+  <h1>Dashboard</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/QLCSVC/thanhly">Lập thông tin thanh lý</a></li>
+      <li class="breadcrumb-item active">Lập thông tin thanh lý</li>
+    </ol>
+  </nav>
+</div>
+<section class="section profile">
+  <div class="row">
+
+
+    <div class="col-xl-12">
+
+      <div class="card">
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <ul class="nav nav-tabs nav-tabs-bordered">
+
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">Lập thông tin thanh lý</button>
+            </li>
+
+          </ul>
+          <div class="tab-content pt-2">
+
+
+
+            <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
+
+              <!-- Profile Edit Form -->
+              <form  [formGroup]="dsdcForm" (ngSubmit)="onSubmit(dsdcForm.value)">
+
+
+
+
+                <div class="row mb-3">
+                  <label for="company" class="col-md-4 col-lg-3 col-form-label">Tên thông tin thanh lý</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="company" formControlName="tenThanhLy"  type="text" class="form-control" id="company">
+                    <p class="text-danger mt-2"  *ngIf="(dsdcForm.get('tenThanhLy').touched||submitted)&&dsdcForm.get('tenThanhLy').errors?.['required']">Trường này không được bỏ trống.</p>
+
+                  </div>
+                </div>
+
+
+
+                <div class="row mb-3">
+                  <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Mô tả</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="phone" formControlName="moTa" type="text" class="form-control" id="Phone" >
+                    <p class="text-danger mt-2"  *ngIf="(dsdcForm.get('moTa').touched||submitted)&&dsdcForm.get('moTa').errors?.['required']">Trường này không được bỏ trống.</p>
+
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Tiền thu được</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="phone"  type="text" formControlName="tienThu" class="form-control" id="Phone1" >
+                    <p class="text-danger mt-2"  *ngIf="(dsdcForm.get('tienThu').touched||submitted)&&dsdcForm.get('tienThu').errors?.['required']">Trường này không được bỏ trống.</p>
+
+
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Cơ quan thanh lý</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="phone"  type="text" formControlName="coQuanTL" class="form-control" id="Phone1ad" >
+                    <p class="text-danger mt-2"  *ngIf="(dsdcForm.get('coQuanTL').touched||submitted)&&dsdcForm.get('coQuanTL').errors?.['required']">Trường này không được bỏ trống.</p>
+
+                  </div>
+                </div>
+
+
+
+
+
+
+                  <h5 class="card-title">Chọn tài sản cần thanh lý</h5>
+                  <h5 class="card-title text-center text-danger" *ngIf="(taisans$|async).data.page.content.length == 0">Phòng này chưa có tài sản hỏng</h5>
+
+                    <!-- Table with stripped rows -->
+                    <div *ngIf="(taisans$|async).data.page.content.length > 0">
+                      <table class="table datatable" *ngIf="taisans$|async as taisans " >
+                        <thead>
+                          <tr>
+                            <th scope="col"><input class="form-check-input me-2" type="checkbox"
+                              [checked]="isAllCheckBoxChecked()"
+                               (change)="checkAllCheckBox($event)"
+                              id="gridCheck1">
+                              Mã tài sản</th>
+                            <th scope="col">Hình ảnh</th>
+                            <th scope="col">Tên tài sản</th>
+                            <th scope="col">Vị trí</th>
+                            <th scope="col">Trạng thái</th>
+                            <th scope="col">Danh mục tài sản</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let taisan of taiSans,let i=index">
+                            <th><input class="form-check-input me-2" type="checkbox" (change)="updateTSSelect()" [(ngModel)]="taiSans[i].checked" [ngModelOptions]="{standalone: true}" >{{taisan.maTS}}</th>
+                             <td scope="row"><a routerLink="/QLCSVC/taisan/detail/{{taisan.maTS}}"  > <img width="60px" src="http://localhost:8080/QLCSVC/api/file/{{taisan.image}}" alt=""></a></td>
+                            <td><a routerLink="/QLCSVC/taisan/detail/{{taisan.maTS}}" class="text-primary fw-bold">{{taisan.tenTS}}</a></td>
+                            <td>{{taisan.phong.tenPhong}}</td>
+                            <td>{{taisan.trangThai.tenTT}}</td>
+                            <td>{{taisan.danhMucTaiSan.tenDanhMucTS}}</td>
+
+                          </tr>
+
+
+
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- End Table with stripped rows -->
+
+
+
+
+
+
+
+
+
+                    <nav aria-label="Page navigation example " *ngIf="(taisans$|async) as api"  >
+                      <ul class="pagination justify-content-center" *ngIf="api.data.page.content.length > 0">
+                        <li class="page-item " [ngClass]="api.data.page.number+1===1?'disabled':''" (click)="goToPage(api.data.page.number-1)">
+                          <a class="page-link"[ngClass]="api.data.page.number+1===1?'disabled':''" >Previous</a>
+                        </li>
+                        <li class="page-item" [ngClass]="i===api.data.page.number?'active':''" *ngFor="let pageNumber of [].constructor(api.data.page.totalPages),let i=index" (click)="goToPage(i)"><a class="page-link" >{{i+1}}</a></li>
+
+                        <li class="page-item"   [ngClass]="api.data.page.number+1===api.data.page.totalPages?'disabled':''">
+                          <a class="page-link"  [ngClass]="api.data.page.number+1===api.data.page.totalPages?'disabled':''" (click)="goToPage(api.data.page.number+1)">Next</a>
+                        </li>
+                      </ul>
+                    </nav>
+
+
+
+
+
+
+
+
+
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+              </form><!-- End Profile Edit Form -->
+
+
+            </div>
+
+
+
+          </div><!-- End Bordered Tabs -->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+

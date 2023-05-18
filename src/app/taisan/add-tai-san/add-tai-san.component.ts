@@ -89,8 +89,10 @@ export class AddTaiSanComponent implements OnInit {
         })
       ).subscribe(data =>{
         this.toastr.success("Thêm thành công");
-        
+
       })
+    }else{
+      this.toastr.error("Các trường không được để trống")
     }
   }
 

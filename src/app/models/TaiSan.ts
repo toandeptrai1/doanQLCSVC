@@ -19,5 +19,7 @@ export interface TaiSan{
   maPhong:number;
   trangThai:TrangThai;
   danhMucTaiSan:DanhMucTaiSan;
+  checked?: boolean;
+  
 
 }

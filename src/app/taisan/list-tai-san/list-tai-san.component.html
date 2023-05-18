@@ -17,7 +17,7 @@
             <div class="card-body pb-0">
               <div class="d-flex justify-content-between">
                 <h5 class="card-title">Danh sách tài sản <span></span></h5>
-                <button type="button " (click)=" navigateToAddPage()" class="btn btn-info my-2 btn-sm">Thêm tài sản <i class="fa-solid fa-plus"></i></button>
+                <button type="button "  *ngIf="isTruongKhoa()" (click)=" navigateToAddPage()" class="btn btn-info my-2 btn-sm">Thêm tài sản <i class="fa-solid fa-plus"></i></button>
               </div>
 
               <table class="table table-borderless">
@@ -30,7 +30,7 @@
                     <th scope="col">Vị trí</th>
                     <th scope="col">Danh mục tài sản</th>
                     <th scope="col">Trạng thái</th>
-                    <th scope="col">Hành động</th>
+                    <th scope="col" *ngIf="isTruongKhoa()">Hành động</th>
                   </tr>
                 </thead>
                 <tbody *ngIf="(taisans$|async).data.page.content as taisans">
@@ -41,7 +41,7 @@
                     <td>{{taisan.phong.tenPhong}}</td>
                     <td >{{taisan.danhMucTaiSan.tenDanhMucTS}}</td>
                     <td>{{taisan.trangThai.tenTT}}</td>
-                    <td >
+                    <td  *ngIf="isTruongKhoa()">
                       <button type="button" class="btn btn-primary me-2" (click)=" navigateToEditPage(taisan.maTS)"> Sửa <i class="fa-solid fa-pen me-2"></i></button>
                       <a href="#deleteUser{{taisan.maTS}}" type="button" class="btn btn-danger btn-small" data-bs-toggle="modal" >Xóa <i class="fa-solid fa-trash"></i></a>
 
@@ -74,8 +74,8 @@
 
             <nav aria-label="Page navigation example " *ngIf="(taisans$|async) as api">
               <ul class="pagination justify-content-center" >
-                <li class="page-item " [ngClass]="api.data.page.number+1===1?'disabled':''" (click)="goToPage(api.data.page.number-1)">
-                  <a class="page-link"[ngClass]="api.data.page.number+1===1?'disabled':''" >Previous</a>
+                <li class="page-item " [ngClass]="api.data.page.number+1===1?'disabled':''" >
+                  <button [disabled]="api.data.page.number===0?'disabled':''" (click)="goToPage(api.data.page.number-1)" class="page-link"[ngClass]="api.data.page.number===0?'disabled':''"  >Previous</button>
                 </li>
                 <li class="page-item" [ngClass]="i===api.data.page.number?'active':''" *ngFor="let pageNumber of [].constructor(api.data.page.totalPages),let i=index" (click)="goToPage(i)"><a class="page-link" >{{i+1}}</a></li>
 

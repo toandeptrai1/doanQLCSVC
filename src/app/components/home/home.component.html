@@ -1,9 +1,10 @@
+
 <div class="pagetitle">
   <h1>Dashboard</h1>
   <nav>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-      <li class="breadcrumb-item active">Dashboard</li>
+      <li class="breadcrumb-item"><a routerLink="/QLCSVC/user/">User</a></li>
+      <li class="breadcrumb-item active">Danh sách user</li>
     </ol>
   </nav>
 </div><!-- End Page Title -->
@@ -16,7 +17,7 @@
                         <h2>Danh Sách <b>Thành Viên</b></h2>
                     </div>
                     <div class="col-sm-7">
-                        <a routerLink="/QLCSVC/user/addUser" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Thêm thành viên</span></a>
+                        <a routerLink="/QLCSVC/user/addUser" class="btn btn-secondary" *ngIf="isTruongKhoa()"><i class="material-icons">&#xE147;</i> <span>Thêm thành viên</span></a>
 
                     </div>
                 </div>
@@ -30,7 +31,7 @@
                         <th>Chức vụ</th>
 
                         <th>Phòng quản lý</th>
-                        <th>Thao tác</th>
+                        <th *ngIf="isTruongKhoa()">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody *ngIf=" Users$|async as Users">
@@ -47,8 +48,8 @@
 
 
 
-                        <td>
-                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                        <td *ngIf="isTruongKhoa()">
+                            <a href="/QLCSVC/user/editUser/{{user.username}}" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
                             <a href="#deleteModal{{user.id}}" class="delete" title="Delete" data-toggle="tooltip" data-bs-toggle="modal" ><i class="material-icons">&#xE5C9;</i></a>
                         </td>
                          <!-- Modal -->
@@ -75,16 +76,18 @@
             </table>
             <div class="clearfix">
 
-                <ul class="pagination">
-                    <li class="page-item " [ngClass]="(Users$|async).data.page.number===0?'disabled':''"><a>Previous</a></li>
-                    <li class="page-item " [ngClass]="i===(Users$|async).data.page.number?'active':''" *ngFor="let pageNumber of [].constructor((Users$|async).data.page.totalPages),let i =index"><a  class="page-link">
-                      {{ i+1}}</a>
-                    </li>
+              <nav aria-label="Page navigation example " *ngIf="(Users$|async) as api">
+                <ul class="pagination justify-content-center" >
+                  <li class="page-item "  [ngClass]="api.data.page.number===0?'disabled':''" >
+                    <a class="page-link"  (click)="goToPage(api.data.page.number-1)" [ngClass]="api.data.page.number===0?'disabled':''" >Previous</a>
+                  </li>
+                  <li class="page-item" [ngClass]="i===api.data.page.number?'active':''" *ngFor="let pageNumber of [].constructor(api.data.page.totalPages),let i=index" (click)="goToPage(i)"><a class="page-link" >{{i+1}}</a></li>
 
-                    <li class="page-item"  [ngClass]="(Users$|async).data.page.number+1===(Users$|async).data.page.totalPages?'disabled':''">
-                      <a  class="page-link">Next</a>
-                    </li>
+                  <li class="page-item"   [ngClass]="api.data.page.number+1===api.data.page.totalPages?'disabled':''">
+                    <a class="page-link"  [ngClass]="api.data.page.number+1===api.data.page.totalPages?'disabled':''" (click)="goToPage(api.data.page.number+1)">Next</a>
+                  </li>
                 </ul>
+              </nav>
             </div>
         </div>
     </div>

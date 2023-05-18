@@ -1,0 +1,104 @@
+<div class="pagetitle">
+  <h1>Dashboard</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/QLCSVC/phong">Phòng</a></li>
+      <li class="breadcrumb-item active">Cập nhật lại trạng thái tài sản của phòng</li>
+    </ol>
+  </nav>
+</div>
+<section class="section dashboard">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-12">
+
+              <form [formGroup]="updateForm" (ngSubmit)="updateTTTS(updateForm.value)">
+                <div class="card top-selling overflow-auto">
+
+                  <div class="card-body pb-0">
+                    <div class="d-flex justify-content-between">
+                      <h5 class="card-title">Danh sách tài sản của {{(phong$|async).tenPhong}}<span></span></h5>
+                      <button type="submit"   class="btn btn-info my-2 btn-sm">Cập nhật trạng thái TS  <i class="fa-solid fa-wrench"></i></button>
+
+                    </div>
+                    <div class="row mb-3" >
+                      <label for="Address" class="col-md-4 col-lg-3 col-form-label">Chọn trạng thái: </label>
+                      <div class="col-md-4 col-lg-3 d-flex align-items-center" >
+                        <select class="form-select form-select-sm" formControlName="maTT" *ngIf="trangThais$|async as trangThais" #tt (change)="onTTChange(tt.value)"   aria-label=".form-select-lg example">
+
+                          <option [value]="trangthai.maTT" *ngFor="let trangthai of trangThais" >{{trangthai.tenTT}}</option>
+
+                        </select>
+
+
+                      </div>
+                      <p class="text-danger" *ngIf="submmited&&updateForm.get('maTT').errors?.['required']">Bạn phải chọn trạng thái</p>
+
+
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                      <h5 class="card-title" *ngIf="(taisans$|async).data.page.content.length===0">Phòng này chưa có tài sản nào <span></span></h5>
+
+                    </div>
+
+                    <table class="table table-borderless" *ngIf="(taisans$|async).data.page.content.length>0">
+                      <thead>
+                        <tr>
+                          <th scope="col"><input class="form-check-input me-2" type="checkbox"
+                            [checked]="isAllCheckBoxChecked()"
+                             (change)="checkAllCheckBox($event)"
+                            id="gridCheck1">ID</th>
+                          <th scope="col">Hình ảnh</th>
+
+                          <th scope="col">Tên tài sản</th>
+                          <th scope="col">Vị trí</th>
+                          <th scope="col">Danh mục tài sản</th>
+                          <th scope="col">Trạng thái</th>
+
+
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="taiSans">
+                        <tr *ngFor="let taisan of taiSans,let i=index">
+                          <td><input class="form-check-input me-2" type="checkbox"  [(ngModel)]="taiSans[i].checked" [ngModelOptions]="{standalone: true}" >{{taisan.maTS}}</td>
+                          <th scope="row"><a routerLink="/QLCSVC/taisan/detail/{{taisan.maTS}}" ><img src="http://localhost:8080/QLCSVC/api/file/{{taisan.image}}" alt=""></a></th>
+                          <td><a routerLink="/QLCSVC/taisan/detail/{{taisan.maTS}}" class="text-primary fw-bold">{{taisan.tenTS}}</a></td>
+                          <td>{{taisan.phong.tenPhong}}</td>
+                          <td >{{taisan.danhMucTaiSan.tenDanhMucTS}}</td>
+                          <td >{{taisan.trangThai.tenTT}}</td>
+
+
+
+                        </tr>
+
+
+                      </tbody>
+                    </table>
+
+                  </div>
+
+                  <nav aria-label="Page navigation example "*ngIf="(taisans$|async).data.page.content.length>0" >
+                    <ul class="pagination justify-content-center" *ngIf="(taisans$|async) as api" >
+                      <li class="page-item " [ngClass]="api.data.page.number+1===1?'disabled':''" >
+                        <a class="page-link"[ngClass]="api.data.page.number+1===1?'disabled':''" (click)="goToPage(api.data.page.number-1)">Previous</a>
+                      </li>
+                      <li class="page-item" [ngClass]="i===api.data.page.number?'active':''" *ngFor="let pageNumber of [].constructor(api.data.page.totalPages),let i=index" ><a class="page-link"(click)="goToPage(i)" >{{i+1}}</a></li>
+
+                      <li class="page-item"   [ngClass]="api.data.page.number+1===api.data.page.totalPages?'disabled':''">
+                        <a class="page-link"  [ngClass]="api.data.page.number+1===api.data.page.totalPages?'disabled':''" (click)="goToPage(api.data.page.number+1)">Next</a>
+                      </li>
+                    </ul>
+                  </nav>
+
+                </div>
+              </form>
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</section>
